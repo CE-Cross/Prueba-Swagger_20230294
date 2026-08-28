@@ -19,6 +19,9 @@ import closureDateRoutes from "./routes/closureDateRoutes.js";
 import fontRoutes from "./routes/fontRoutes.js";
 import userRoutes from "./routes/users.js";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./utils/ricaldone-986-Prueba_Swagger_20230294-1-resolved.json" with {type: "json"};
+
 const app = express();
 
 app.use(
@@ -52,6 +55,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/geocoding", geocodingRoutes);
 app.use("/api/closure-dates", closureDateRoutes);
 app.use("/api/fonts", fontRoutes);
+app.use("api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(notFound);
 app.use(errorHandler);

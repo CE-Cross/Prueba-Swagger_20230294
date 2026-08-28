@@ -1,0 +1,1727 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API REST documentación",
+    "description": "Documentación en Swagger de una API REST",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/ricaldone-986/Prueba_Swagger_20230294/1",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "http://localhost:4000/api",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/api/auth/register/request-code": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con este método se solicita un codigo para el registro de un usuario",
+        "operationId": "post-api-auth-register-request-code",
+        "requestBody": {
+          "description": "Se envia el correo a registrar.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "email": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Código de verificación enviado al correo principal del administrador."
+          },
+          "400": {
+            "description": "1. El correo eléctronico es requerido.\n2. Este correo eléctronico ya está registrado."
+          },
+          "500": {
+            "description": "Error al solicitar código de verificación."
+          }
+        }
+      }
+    },
+    "/api/auth/register/verify": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con este método se verifica el código para que seguidamente se pueda registrar el usuario y verificar.",
+        "operationId": "post-api-auth-register-verify",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "email": "string",
+                    "code": "string",
+                    "password": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario creado exitosamente."
+          },
+          "400": {
+            "description": "1. Todos los campos son requeridos.\n2. La contraseña debe tener al menos 6 caracteres.\n3. Código invalido o expirado.\n4. Este correo ya está registrado."
+          },
+          "500": {
+            "description": "Error al registrar usuario."
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con esté método el usuario podra iniciar sesión dentro de la aplicación.",
+        "operationId": "post-api-auth-login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "email": "string",
+                    "password": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inicio de sesión exitoso."
+          },
+          "400": {
+            "description": "Correo electrónico y contraseña son requeridos.\n"
+          },
+          "401": {
+            "description": "Credenciales inválidas."
+          },
+          "500": {
+            "description": "Error al iniciar sesión."
+          }
+        }
+      }
+    },
+    "/api/auth/password-reset/request": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con este método se solicita un código para la recuperación de contraseña.",
+        "operationId": "post-api-auth-password-reset-request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "email": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Si el correo existe, se ha enviado un código de verificiación."
+          },
+          "400": {
+            "description": "El correo electrónico es requerido."
+          },
+          "404": {
+            "description": "Si el correo existe, se ha enviado un código de verificación."
+          },
+          "500": {
+            "description": "Error al solicitar recuperación de contraseña."
+          }
+        }
+      }
+    },
+    "/api/auth/password-reset/verify": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con este método se verifica la identidad del usuario por medio de un código para la recuperación de contraseña.",
+        "operationId": "post-api-auth-password-reset-verify",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "email": "string",
+                    "code": "string",
+                    "newPassword": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contraseña restablecida exitosamente."
+          },
+          "400": {
+            "description": "1. Todos los campos son requeridos.\n2. La contraseña debe tener al menos 6 caracteres.\n3. Código inválido o expirado."
+          },
+          "404": {
+            "description": "Usuario no encontrado."
+          },
+          "500": {
+            "description": "Error al restablecer contraseña."
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se obtiene al usuario actual.",
+        "operationId": "get-api-auth-me",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": "string",
+                      "email": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error al obtener el usuario."
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se obtienen todas las categorías de la base de datos.",
+        "operationId": "get-api-categories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con este método se puede agregar un nueva categoría a la base de datos.",
+        "operationId": "post-api-categories",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "name": "string",
+                    "description": "string",
+                    "icon": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "1. El nombre de la categoría es obligatorio.\n2. El nombre ya existe (el nombre genera un slug duplicado)."
+          },
+          "500": {
+            "description": "1. El valor ingresado ya existe.\n2. Internal server error."
+          }
+        }
+      }
+    },
+    "/api/categories/{id}": {
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se obtiene una categoría en específico por el id.",
+        "operationId": "get-api-categories-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Categoría no encontrada."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Your PUT endpoint",
+        "description": "Con este método se actualiza una categoría de la base de datos.",
+        "operationId": "put-api-categories-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "name": "string",
+                    "description": "string",
+                    "featured": true,
+                    "order": 0,
+                    "icon": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Ya existe una categoría con ese nombre"
+          },
+          "404": {
+            "description": "Categoría no encontrado."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Your DELETE endpoint",
+        "description": "Con este método se elimina un categoría de la base de datos.",
+        "operationId": "delete-api-categories-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoría eliminada."
+          },
+          "404": {
+            "description": "Categoría no encontrada"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se obtienen todos los productos de la base de datos por medio de un filtro de búsqueda.",
+        "operationId": "get-api-products",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con este método se crea un nuevo producto de la base de datos.",
+        "operationId": "post-api-products",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "name": "string",
+                    "descrtiption": "string",
+                    "price": 0,
+                    "originalPrice": 0,
+                    "images": [
+                      null
+                    ],
+                    "category": "string",
+                    "subcategory": "string",
+                    "sizes": [
+                      null
+                    ],
+                    "colors": [
+                      null
+                    ],
+                    "stock": 0,
+                    "hasVariants": true,
+                    "variants": [
+                      {
+                        "size": "string",
+                        "color": "string",
+                        "stock": 0,
+                        "images": [
+                          "string"
+                        ],
+                        "sku": "string",
+                        "stockZeroAt": "2019-08-24T14:15:22Z"
+                      }
+                    ],
+                    "brand": "string",
+                    "proveedor": "string",
+                    "importe": 0,
+                    "taxes": 0,
+                    "impuestosImportacion": 0,
+                    "flete": 0,
+                    "costo": 0,
+                    "paraTienda": true,
+                    "location": "string",
+                    "barcode": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "1. El nombre del producto es obligatorio.\n2. Categoría inválida.\n3. La categoría es obligatoria."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/products/allProducts": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se obtiene todos los productos de la base de datos.",
+        "operationId": "get-api-products-allproducts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/products/barcode/{barcode}": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your PUT endpoint",
+        "description": "Con este método se puede actualizar un producto por medio de un código de barras.",
+        "operationId": "put-api-products-barcode-barcode",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "barcode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "name": "string",
+                    "descrtiption": "string",
+                    "price": 0,
+                    "images": [
+                      null
+                    ],
+                    "stock": 0,
+                    "location": "string",
+                    "barcode": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Producto no encontrado."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your DELETE endpoint",
+        "description": "Con este método se borra un producto por medio del código de barras.",
+        "operationId": "delete-api-products-barcode-barcode",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "barcode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Producto eliminado por barcode."
+          },
+          "404": {
+            "description": "Producto no encontrado."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/products/{productId}/variant-stock": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your PUT endpoint",
+        "description": "Con este método se puede actualizar un producto para una variable específica.",
+        "operationId": "put-api-products-productId-variant-stock",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "variantId": "string",
+                    "size": "string",
+                    "color": "string",
+                    "stockChange": 0,
+                    "newStock": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Este producto no tiene variantes."
+          },
+          "404": {
+            "description": "1. Producto no encontrado.\n2. Variable no encontrada."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se obtiene un producto por medio del id.",
+        "operationId": "get-api-products-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producto no encontrado."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your PUT endpoint",
+        "description": "Con este método se actualiza un producto por medio de la id.",
+        "operationId": "put-api-products-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "id": "string",
+                    "name": "string",
+                    "descrtiption": "string",
+                    "price": 0,
+                    "originalPrice": 0,
+                    "images": [
+                      null
+                    ],
+                    "category": "string",
+                    "categorySlug": "string",
+                    "subcategory": "string",
+                    "sizes": [
+                      null
+                    ],
+                    "colors": [
+                      null
+                    ],
+                    "stock": 0,
+                    "hasVariants": true,
+                    "variants": [
+                      null
+                    ],
+                    "brand": "string",
+                    "rating": 0,
+                    "proveedor": "string",
+                    "importe": 0,
+                    "taxes": 0,
+                    "impuestosImportacion": 0,
+                    "flete": 0,
+                    "costo": 0,
+                    "paraTienda": true,
+                    "location": "string",
+                    "barcode": "string",
+                    "stockZeroAt": "2019-08-24T14:15:22Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Categoría inválida.\n"
+          },
+          "404": {
+            "description": "Producto no encontrado."
+          },
+          "409": {
+            "description": "El código de barra ya está registrado."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Your DELETE endpoint",
+        "description": "Con este método se elimina un producto de la base de datos.",
+        "operationId": "delete-api-products-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Producto eliminado."
+          },
+          "404": {
+            "description": "Producto no encontrado."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/barcodes": {
+      "post": {
+        "tags": [
+          "Barcodes"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Con este método se generá un codigo de barras.",
+        "operationId": "post-api-barcodes",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/excel/export": {
+      "get": {
+        "tags": [
+          "excel"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se envia los productos la preparación de un archivo en excel con todos los datos de los productos.",
+        "operationId": "get-api-excel",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/excel/file": {
+      "get": {
+        "tags": [
+          "excel"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Con este método se envia un archivo excel con todos los datos de los productos para tenerlo como archivo.",
+        "operationId": "get-api-excel-file",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/excel/import": {
+      "post": {
+        "tags": [
+          "excel"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "con este método se envia nuevos productos para añadirlos en el excel y asi actualizarlo",
+        "operationId": "post-api-excel-import",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Importación completada con exito, productos agregados."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnnouncementBar": {
+        "title": "AnnouncementBar",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "imagePublicId": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "backgroundColor": {
+            "type": "string"
+          },
+          "textColor": {
+            "type": "string"
+          },
+          "animation": {
+            "type": "string",
+            "enum": [
+              "none",
+              "marquee",
+              "pulse",
+              "fadeIn",
+              "slideFromTop",
+              "bounce",
+              "wobble",
+              "heartbeat",
+              "blink",
+              "shake",
+              "swing",
+              "rubberBand",
+              "flash",
+              "jello"
+            ],
+            "default": "none"
+          },
+          "decoration": {
+            "type": "string",
+            "enum": [
+              "none",
+              "christmas",
+              "hallowen",
+              "valentines",
+              "mothers_day",
+              "fathers_day",
+              "black_day",
+              "easter",
+              "new_year",
+              "independence_sv",
+              "birthday",
+              "august_fest"
+            ],
+            "default": "none"
+          },
+          "height": {
+            "type": "number"
+          },
+          "fontSize": {
+            "type": "number"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción announcementBar."
+      },
+      "AnnouncementImage": {
+        "title": "AnnouncementImage",
+        "required": [
+          "public_id",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "public_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción announcementImage."
+      },
+      "Banner": {
+        "title": "Banner",
+        "required": [
+          "imageUrl",
+          "images",
+          "videoDuration",
+          "videoUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "image",
+              "video",
+              "collage"
+            ],
+            "default": "image"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {}
+          },
+          "videoUrl": {
+            "type": "string"
+          },
+          "videoDuration": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "order": {
+            "type": "number"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción Banner."
+      },
+      "Category": {
+        "title": "Category",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "subcategories": {
+            "type": "array",
+            "items": {}
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "order": {
+            "type": "number"
+          },
+          "icon": {
+            "type": "string"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción Category."
+      },
+      "ClosureDate": {
+        "title": "ClosureDate",
+        "required": [
+          "date"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "hasSpecialHours": {
+            "type": "boolean"
+          },
+          "specialHours": {
+            "$ref": "#/components/schemas/ClosureDate_specialHours"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción ClosureDate."
+      },
+      "Counter": {
+        "title": "Counter",
+        "required": [
+          "name",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción Counter."
+      },
+      "CustomFont": {
+        "title": "CustomFont",
+        "required": [
+          "name",
+          "originalName",
+          "public_id",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "public_id": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "ttf",
+              "otf",
+              "woff",
+              "woff2"
+            ]
+          },
+          "originalName": {
+            "type": "string"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción CustomFont."
+      },
+      "Notification": {
+        "title": "Notification",
+        "required": [
+          "message",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "low_stock",
+              "pickup_ready",
+              "payment_failed",
+              "info",
+              "system_alert"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción Notification."
+      },
+      "Order": {
+        "title": "Order",
+        "required": [
+          "orderNumber",
+          "shippingCost",
+          "subtotal",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderNumber": {
+            "type": "string"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Order_customer"
+          },
+          "subtotal": {
+            "type": "number"
+          },
+          "shippingCost": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "shipped",
+              "delivered",
+              "cancellled"
+            ],
+            "default": "pending"
+          },
+          "user": {
+            "type": "string"
+          },
+          "deliveryMethod": {
+            "type": "string",
+            "enum": [
+              "delivery",
+              "pickup",
+              "pos"
+            ],
+            "default": "delivery"
+          },
+          "pickupDetails": {
+            "$ref": "#/components/schemas/Order_pickupDetails"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción Order."
+      },
+      "Product": {
+        "title": "Product",
+        "required": [
+          "category",
+          "descrtiption",
+          "images",
+          "name",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "descrtiption": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "originalPrice": {
+            "type": "number"
+          },
+          "images": {
+            "type": "array",
+            "items": {}
+          },
+          "category": {
+            "type": "string"
+          },
+          "categorySlug": {
+            "type": "string"
+          },
+          "subcategory": {
+            "type": "string"
+          },
+          "sizes": {
+            "type": "array",
+            "items": {}
+          },
+          "colors": {
+            "type": "array",
+            "items": {}
+          },
+          "stock": {
+            "type": "number"
+          },
+          "hasVariants": {
+            "type": "boolean"
+          },
+          "variants": {
+            "type": "array",
+            "items": {}
+          },
+          "brand": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "proveedor": {
+            "type": "string"
+          },
+          "importe": {
+            "type": "number"
+          },
+          "taxes": {
+            "type": "number"
+          },
+          "impuestosImportacion": {
+            "type": "number"
+          },
+          "flete": {
+            "type": "number"
+          },
+          "costo": {
+            "type": "number"
+          },
+          "paraTienda": {
+            "type": "boolean"
+          },
+          "location": {
+            "type": "string"
+          },
+          "barcode": {
+            "type": "string"
+          },
+          "stockZeroAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción Product."
+      },
+      "Settings": {
+        "title": "Settings",
+        "required": [
+          "key",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción Settings."
+      },
+      "StoreHours": {
+        "title": "StoreHours",
+        "required": [
+          "day"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "day": {
+            "type": "number"
+          },
+          "openTime": {
+            "type": "string"
+          },
+          "closedTime": {
+            "type": "string"
+          },
+          "closed": {
+            "type": "boolean"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción StoreHours."
+      },
+      "User": {
+        "title": "User",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "seller"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "masculino",
+              "femenino",
+              "prefiero no decirlo",
+              "otro"
+            ]
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "wishlist": {
+            "type": "array",
+            "items": {}
+          },
+          "isVerified": {
+            "type": "boolean"
+          },
+          "acceptedTerms": {
+            "type": "boolean"
+          },
+          "verificationCode": {
+            "type": "string"
+          },
+          "verificationCodeExpires": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción User."
+      },
+      "VerificationCode": {
+        "title": "VerificationCode",
+        "required": [
+          "code",
+          "email",
+          "expiresAt",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "registration",
+              "password_reset"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "used": {
+            "type": "string"
+          }
+        },
+        "description": "Esquema de los documentos de la colleción VerificationCode."
+      },
+      "inline_response_201": {
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "type": "string"
+          }
+        }
+      },
+      "ClosureDate_specialHours": {
+        "type": "object",
+        "properties": {
+          "openTime": {
+            "type": "string"
+          },
+          "closeTime": {
+            "type": "string"
+          }
+        }
+      },
+      "Order_customer_location": {
+        "type": "object",
+        "properties": {
+          "lat": {
+            "type": "number"
+          },
+          "lng": {
+            "type": "number"
+          },
+          "geocodedAddress": {
+            "type": "string"
+          },
+          "mapScreenshot": {
+            "type": "string"
+          }
+        }
+      },
+      "Order_customer": {
+        "required": [
+          "address",
+          "email",
+          "fullName",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "additionalInstructions": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Order_customer_location"
+          }
+        }
+      },
+      "Order_pickupDetails": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "time": {
+            "type": "string",
+            "format": "time"
+          }
+        }
+      }
+    }
+  }
+}
