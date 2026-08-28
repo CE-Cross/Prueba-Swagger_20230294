@@ -55,7 +55,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/geocoding", geocodingRoutes);
 app.use("/api/closure-dates", closureDateRoutes);
 app.use("/api/fonts", fontRoutes);
-app.use("api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(notFound);
 app.use(errorHandler);
